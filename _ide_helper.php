@@ -5,7 +5,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 12.20.0.
+ * Generated for Laravel 12.25.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -1618,15 +1618,11 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Finds an entry of the container by its identifier and returns it.
+         * {@inheritdoc}
          *
          * @template TClass of object
          * @param string|class-string<TClass> $id
          * @return ($id is class-string<TClass> ? TClass : mixed)
-         * @param string $id Identifier of the entry to look for.
-         * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
-         * @throws ContainerExceptionInterface Error while retrieving the entry.
-         * @return mixed Entry.
          * @static
          */
         public static function get($id)
@@ -1834,6 +1830,34 @@ namespace Illuminate\Support\Facades {
             //Method inherited from \Illuminate\Container\Container 
             /** @var \Illuminate\Foundation\Application $instance */
             $instance->forgetScopedInstances();
+        }
+
+        /**
+         * Set the callback which determines the current container environment.
+         *
+         * @param (callable(array<int, string>|string): bool|string)|null $callback
+         * @return void
+         * @static
+         */
+        public static function resolveEnvironmentUsing($callback)
+        {
+            //Method inherited from \Illuminate\Container\Container 
+            /** @var \Illuminate\Foundation\Application $instance */
+            $instance->resolveEnvironmentUsing($callback);
+        }
+
+        /**
+         * Determine the environment for the container.
+         *
+         * @param array<int, string>|string $environments
+         * @return bool
+         * @static
+         */
+        public static function currentEnvironmentIs($environments)
+        {
+            //Method inherited from \Illuminate\Container\Container 
+            /** @var \Illuminate\Foundation\Application $instance */
+            return $instance->currentEnvironmentIs($environments);
         }
 
         /**
@@ -2083,7 +2107,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Run an Artisan console command by name.
          *
-         * @param string $command
+         * @param \Symfony\Component\Console\Command\Command|string $command
          * @param array $parameters
          * @param \Symfony\Component\Console\Output\OutputInterface|null $outputBuffer
          * @return int
@@ -3858,7 +3882,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Create a new batch of queueable jobs.
          *
-         * @param \Illuminate\Support\Collection|array|mixed $jobs
+         * @param \Illuminate\Support\Collection|mixed $jobs
          * @return \Illuminate\Bus\PendingBatch
          * @static
          */
@@ -3871,11 +3895,11 @@ namespace Illuminate\Support\Facades {
         /**
          * Create a new chain of queueable jobs.
          *
-         * @param \Illuminate\Support\Collection|array $jobs
+         * @param \Illuminate\Support\Collection|array|null $jobs
          * @return \Illuminate\Foundation\Bus\PendingChain
          * @static
          */
-        public static function chain($jobs)
+        public static function chain($jobs = null)
         {
             /** @var \Illuminate\Bus\Dispatcher $instance */
             return $instance->chain($jobs);
@@ -3898,7 +3922,7 @@ namespace Illuminate\Support\Facades {
          * Retrieve the handler for a command.
          *
          * @param mixed $command
-         * @return bool|mixed
+         * @return mixed
          * @static
          */
         public static function getCommandHandler($command)
@@ -4010,6 +4034,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
             $instance->assertDispatched($command, $callback);
+        }
+
+        /**
+         * Assert if a job was pushed exactly once.
+         *
+         * @param string|\Closure $command
+         * @param int $times
+         * @return void
+         * @static
+         */
+        public static function assertDispatchedOnce($command)
+        {
+            /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+            $instance->assertDispatchedOnce($command);
         }
 
         /**
@@ -5195,7 +5233,32 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Specify the name of the connection that should be used to manage locks.
+         * Set the underlying database connection.
+         *
+         * @param \Illuminate\Database\ConnectionInterface $connection
+         * @return \Illuminate\Cache\DatabaseStore
+         * @static
+         */
+        public static function setConnection($connection)
+        {
+            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            return $instance->setConnection($connection);
+        }
+
+        /**
+         * Get the connection used to manage locks.
+         *
+         * @return \Illuminate\Database\SQLiteConnection
+         * @static
+         */
+        public static function getLockConnection()
+        {
+            /** @var \Illuminate\Cache\DatabaseStore $instance */
+            return $instance->getLockConnection();
+        }
+
+        /**
+         * Specify the connection that should be used to manage locks.
          *
          * @param \Illuminate\Database\ConnectionInterface $connection
          * @return \Illuminate\Cache\DatabaseStore
@@ -6113,6 +6176,7 @@ namespace Illuminate\Support\Facades {
          * @param array<string, mixed> $data
          * @param array<string, mixed> $hidden
          * @return mixed
+         * @throws \Throwable
          * @static
          */
         public static function scope($callback, $data = [], $hidden = [])
@@ -6835,7 +6899,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a database connection instance.
          *
-         * @param string|null $name
+         * @param \UnitEnum|string|null $name
          * @return \Illuminate\Database\Connection
          * @static
          */
@@ -7198,7 +7262,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Begin a fluent query against a database table.
          *
-         * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Contracts\Database\Query\Expression|string $table
+         * @param \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Contracts\Database\Query\Expression|\UnitEnum|string $table
          * @param string|null $as
          * @return \Illuminate\Database\Query\Builder
          * @static
@@ -7424,8 +7488,8 @@ namespace Illuminate\Support\Facades {
         /**
          * Execute the given callback in "dry run" mode.
          *
-         * @param \Closure $callback
-         * @return array
+         * @param (\Closure(\Illuminate\Database\Connection): mixed) $callback
+         * @return \Illuminate\Database\array{query: string, bindings: array, time: float|null}[]
          * @static
          */
         public static function pretend($callback)
@@ -7498,7 +7562,7 @@ namespace Illuminate\Support\Facades {
          * Register a callback to be invoked when the connection queries for longer than a given amount of time.
          *
          * @param \DateTimeInterface|\Carbon\CarbonInterval|float|int $threshold
-         * @param callable $handler
+         * @param (callable(\Illuminate\Database\Connection, class-string<\Illuminate\Database\Events\QueryExecuted>): mixed) $handler
          * @return void
          * @static
          */
@@ -7997,7 +8061,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the connection query log.
          *
-         * @return array
+         * @return \Illuminate\Database\array{query: string, bindings: array, time: float|null}[]
          * @static
          */
         public static function getQueryLog()
@@ -8490,6 +8554,20 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
+         * Execute the given callback while deferring events, then dispatch all deferred events.
+         *
+         * @param callable $callback
+         * @param array|null $events
+         * @return mixed
+         * @static
+         */
+        public static function defer($callback, $events = null)
+        {
+            /** @var \Illuminate\Events\Dispatcher $instance */
+            return $instance->defer($callback, $events);
+        }
+
+        /**
          * Gets the raw, unprepared listeners.
          *
          * @return array
@@ -8591,6 +8669,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Support\Testing\Fakes\EventFake $instance */
             $instance->assertDispatched($event, $callback);
+        }
+
+        /**
+         * Assert if an event was dispatched exactly once.
+         *
+         * @param string $event
+         * @param int $times
+         * @return void
+         * @static
+         */
+        public static function assertDispatchedOnce($event)
+        {
+            /** @var \Illuminate\Support\Testing\Fakes\EventFake $instance */
+            $instance->assertDispatchedOnce($event);
         }
 
         /**
@@ -9528,7 +9620,7 @@ namespace Illuminate\Support\Facades {
          * Determine if all of the given abilities should be granted for the current user.
          *
          * @param iterable|\UnitEnum|string $ability
-         * @param array|mixed $arguments
+         * @param mixed $arguments
          * @return bool
          * @static
          */
@@ -9542,7 +9634,7 @@ namespace Illuminate\Support\Facades {
          * Determine if any of the given abilities should be denied for the current user.
          *
          * @param iterable|\UnitEnum|string $ability
-         * @param array|mixed $arguments
+         * @param mixed $arguments
          * @return bool
          * @static
          */
@@ -9556,7 +9648,7 @@ namespace Illuminate\Support\Facades {
          * Determine if all of the given abilities should be granted for the current user.
          *
          * @param iterable|\UnitEnum|string $abilities
-         * @param array|mixed $arguments
+         * @param mixed $arguments
          * @return bool
          * @static
          */
@@ -9570,7 +9662,7 @@ namespace Illuminate\Support\Facades {
          * Determine if any one of the given abilities should be granted for the current user.
          *
          * @param iterable|\UnitEnum|string $abilities
-         * @param array|mixed $arguments
+         * @param mixed $arguments
          * @return bool
          * @static
          */
@@ -9584,7 +9676,7 @@ namespace Illuminate\Support\Facades {
          * Determine if all of the given abilities should be denied for the current user.
          *
          * @param iterable|\UnitEnum|string $abilities
-         * @param array|mixed $arguments
+         * @param mixed $arguments
          * @return bool
          * @static
          */
@@ -9598,7 +9690,7 @@ namespace Illuminate\Support\Facades {
          * Determine if the given ability should be granted for the current user.
          *
          * @param \UnitEnum|string $ability
-         * @param array|mixed $arguments
+         * @param mixed $arguments
          * @return \Illuminate\Auth\Access\Response
          * @throws \Illuminate\Auth\Access\AuthorizationException
          * @static
@@ -10008,6 +10100,7 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Http\Client\PendingRequest replaceHeaders(array $headers)
      * @method static \Illuminate\Http\Client\PendingRequest withBasicAuth(string $username, string $password)
      * @method static \Illuminate\Http\Client\PendingRequest withDigestAuth(string $username, string $password)
+     * @method static \Illuminate\Http\Client\PendingRequest withNtlmAuth(string $username, string $password)
      * @method static \Illuminate\Http\Client\PendingRequest withToken(string $token, string $type = 'Bearer')
      * @method static \Illuminate\Http\Client\PendingRequest withUserAgent(string|bool $userAgent)
      * @method static \Illuminate\Http\Client\PendingRequest withUrlParameters(array $parameters = [])
@@ -10047,6 +10140,7 @@ namespace Illuminate\Support\Facades {
      * @method static \GuzzleHttp\Psr7\RequestInterface runBeforeSendingCallbacks(\GuzzleHttp\Psr7\RequestInterface $request, array $options)
      * @method static array mergeOptions(array ...$options)
      * @method static \Illuminate\Http\Client\PendingRequest stub(callable $callback)
+     * @method static bool isAllowedRequestUrl(string $url)
      * @method static \Illuminate\Http\Client\PendingRequest async(bool $async = true)
      * @method static \GuzzleHttp\Promise\PromiseInterface|null getPromise()
      * @method static \Illuminate\Http\Client\PendingRequest truncateExceptionsAt(int $length)
@@ -10244,15 +10338,16 @@ namespace Illuminate\Support\Facades {
         }
 
         /**
-         * Indicate that an exception should not be thrown if any request is not faked.
+         * Allow stray, unfaked requests entirely, or optionally allow only specific URLs.
          *
+         * @param array<int, string>|null $only
          * @return \Illuminate\Http\Client\Factory
          * @static
          */
-        public static function allowStrayRequests()
+        public static function allowStrayRequests($only = null)
         {
             /** @var \Illuminate\Http\Client\Factory $instance */
-            return $instance->allowStrayRequests();
+            return $instance->allowStrayRequests($only);
         }
 
         /**
@@ -13390,7 +13485,7 @@ namespace Illuminate\Support\Facades {
          * Reset the number of attempts for the given key.
          *
          * @param string $key
-         * @return mixed
+         * @return bool
          * @static
          */
         public static function resetAttempts($key)
@@ -13747,12 +13842,6 @@ namespace Illuminate\Support\Facades {
 
             }
     /**
-     * @method static array validate(array $rules, ...$params)
-     * @method static array validateWithBag(string $errorBag, array $rules, ...$params)
-     * @method static bool hasValidSignature(bool $absolute = true)
-     * @method static bool hasValidRelativeSignature()
-     * @method static bool hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
-     * @method static bool hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
      * @see \Illuminate\Http\Request
      */
     class Request {
@@ -16081,7 +16170,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param string|null $format
-         * @param string|null $tz
+         * @param \UnitEnum|string|null $tz
          * @return \Illuminate\Support\Carbon|null
          * @throws \Carbon\Exceptions\InvalidFormatException
          * @static
@@ -16258,6 +16347,78 @@ namespace Illuminate\Support\Facades {
         public static function flushMacros()
         {
             \Illuminate\Http\Request::flushMacros();
+        }
+
+        /**
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param array $rules
+         * @param mixed $params
+         * @static
+         */
+        public static function validate($rules, ...$params)
+        {
+            return \Illuminate\Http\Request::validate($rules, ...$params);
+        }
+
+        /**
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
+         * @param string $errorBag
+         * @param array $rules
+         * @param mixed $params
+         * @static
+         */
+        public static function validateWithBag($errorBag, $rules, ...$params)
+        {
+            return \Illuminate\Http\Request::validateWithBag($errorBag, $rules, ...$params);
+        }
+
+        /**
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $absolute
+         * @static
+         */
+        public static function hasValidSignature($absolute = true)
+        {
+            return \Illuminate\Http\Request::hasValidSignature($absolute);
+        }
+
+        /**
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @static
+         */
+        public static function hasValidRelativeSignature()
+        {
+            return \Illuminate\Http\Request::hasValidRelativeSignature();
+        }
+
+        /**
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @param mixed $absolute
+         * @static
+         */
+        public static function hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+        {
+            return \Illuminate\Http\Request::hasValidSignatureWhileIgnoring($ignoreQuery, $absolute);
+        }
+
+        /**
+         * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestSignatureValidation()
+         * @param mixed $ignoreQuery
+         * @static
+         */
+        public static function hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
+        {
+            return \Illuminate\Http\Request::hasValidRelativeSignatureWhileIgnoring($ignoreQuery);
+        }
+
+        /**
+         * @see \Inertia\ServiceProvider::registerRequestMacro()
+         * @static
+         */
+        public static function inertia()
+        {
+            return \Illuminate\Http\Request::inertia();
         }
 
             }
@@ -16776,6 +16937,20 @@ namespace Illuminate\Support\Facades {
         {
             /** @var \Illuminate\Routing\Router $instance */
             $instance->resources($resources, $options);
+        }
+
+        /**
+         * Register an array of resource controllers that can be soft deleted.
+         *
+         * @param array $resources
+         * @param array $options
+         * @return void
+         * @static
+         */
+        public static function softDeletableResources($resources, $options = [])
+        {
+            /** @var \Illuminate\Routing\Router $instance */
+            $instance->softDeletableResources($resources, $options);
         }
 
         /**
@@ -17647,6 +17822,16 @@ namespace Illuminate\Support\Facades {
             return $instance->tap($callback);
         }
 
+        /**
+         * @param array<array-key, mixed> $props
+         * @see \Inertia\ServiceProvider::registerRouterMacro()
+         * @static
+         */
+        public static function inertia($uri, $component, $props = [])
+        {
+            return \Illuminate\Routing\Router::inertia($uri, $component, $props);
+        }
+
             }
     /**
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes withoutOverlapping(int $expiresAt = 1440)
@@ -17710,7 +17895,7 @@ namespace Illuminate\Support\Facades {
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes yearly()
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes yearlyOn(int $month = 1, int|string $dayOfMonth = 1, string $time = '0:0')
      * @method static \Illuminate\Console\Scheduling\PendingEventAttributes days(array|mixed $days)
-     * @method static \Illuminate\Console\Scheduling\PendingEventAttributes timezone(\DateTimeZone|string $timezone)
+     * @method static \Illuminate\Console\Scheduling\PendingEventAttributes timezone(\UnitEnum|\DateTimeZone|string $timezone)
      * @see \Illuminate\Console\Scheduling\Schedule
      */
     class Schedule {
@@ -17731,7 +17916,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Add a new Artisan command event to the schedule.
          *
-         * @param string $command
+         * @param \Symfony\Component\Console\Command\Command|string $command
          * @param array $parameters
          * @return \Illuminate\Console\Scheduling\Event
          * @static
@@ -17746,8 +17931,8 @@ namespace Illuminate\Support\Facades {
          * Add a new job callback event to the schedule.
          *
          * @param object|string $job
-         * @param string|null $queue
-         * @param string|null $connection
+         * @param \UnitEnum|string|null $queue
+         * @param \UnitEnum|string|null $connection
          * @return \Illuminate\Console\Scheduling\CallbackEvent
          * @static
          */
@@ -18509,7 +18694,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Set the Schema Blueprint resolver callback.
          *
-         * @param \Closure(string, \Closure, string):  \Illuminate\Database\Schema\Blueprint|null  $resolver
+         * @param \Closure(\Illuminate\Database\Connection, string, \Closure|null):  \Illuminate\Database\Schema\Blueprint  $resolver
          * @return void
          * @static
          */
@@ -19469,7 +19654,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get a filesystem instance.
          *
-         * @param string|null $name
+         * @param \UnitEnum|string|null $name
          * @return \Illuminate\Filesystem\LocalFilesystemAdapter
          * @static
          */
@@ -22737,7 +22922,7 @@ namespace Illuminate\Support\Facades {
 namespace Illuminate\Http {
     /**
      */
-    class Request {
+    class Request extends \Symfony\Component\HttpFoundation\Request {
         /**
          * @see \Illuminate\Foundation\Providers\FoundationServiceProvider::registerRequestValidation()
          * @param array $rules
@@ -22819,10 +23004,8 @@ namespace Illuminate\Routing {
      */
     class Router {
         /**
+         * @param array<array-key, mixed> $props
          * @see \Inertia\ServiceProvider::registerRouterMacro()
-         * @param mixed $uri
-         * @param mixed $component
-         * @param mixed $props
          * @static
          */
         public static function inertia($uri, $component, $props = [])
@@ -22901,6 +23084,7 @@ namespace  {
     class Arr extends \Illuminate\Support\Arr {}
     class Artisan extends \Illuminate\Support\Facades\Artisan {}
     class Auth extends \Illuminate\Support\Facades\Auth {}
+    class Benchmark extends \Illuminate\Support\Benchmark {}
     class Blade extends \Illuminate\Support\Facades\Blade {}
     class Broadcast extends \Illuminate\Support\Facades\Broadcast {}
     class Bus extends \Illuminate\Support\Facades\Bus {}
@@ -25671,6 +25855,65 @@ namespace  {
         {
             /** @var \Illuminate\Database\Query\Builder $instance */
             return $instance->orWhereNotBetweenColumns($column, $values);
+        }
+
+        /**
+         * Add a where between columns statement using a value to the query.
+         *
+         * @param mixed $value
+         * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
+         * @param string $boolean
+         * @param bool $not
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function whereValueBetween($value, $columns, $boolean = 'and', $not = false)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->whereValueBetween($value, $columns, $boolean, $not);
+        }
+
+        /**
+         * Add an or where between columns statement using a value to the query.
+         *
+         * @param mixed $value
+         * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orWhereValueBetween($value, $columns)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orWhereValueBetween($value, $columns);
+        }
+
+        /**
+         * Add a where not between columns statement using a value to the query.
+         *
+         * @param mixed $value
+         * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
+         * @param string $boolean
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function whereValueNotBetween($value, $columns, $boolean = 'and')
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->whereValueNotBetween($value, $columns, $boolean);
+        }
+
+        /**
+         * Add an or where not between columns statement using a value to the query.
+         *
+         * @param mixed $value
+         * @param array{\Illuminate\Contracts\Database\Query\Expression|string, \Illuminate\Contracts\Database\Query\Expression|string} $columns
+         * @return \Illuminate\Database\Eloquent\Builder<static>
+         * @static
+         */
+        public static function orWhereValueNotBetween($value, $columns)
+        {
+            /** @var \Illuminate\Database\Query\Builder $instance */
+            return $instance->orWhereValueNotBetween($value, $columns);
         }
 
         /**

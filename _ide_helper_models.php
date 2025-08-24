@@ -13,60 +13,107 @@
 
 namespace App\Models{
 /**
- * @property int $id
- * @property string $name
- * @property string $guard_name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $name_ar
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
- * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
- * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission permission($permissions, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission role($roles, $guard = null, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereGuardName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereNameAr($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission withoutPermission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Permission withoutRole($roles, $guard = null)
+ * @method static \Database\Factories\CarModelFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|CarModel withoutTrashed()
  */
-	class Permission extends \Eloquent {}
+	class CarModel extends \Eloquent {}
 }
 
 namespace App\Models{
 /**
- * @property int $id
- * @property string $name
- * @property string $guard_name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $name_ar
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
- * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
- * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role permission($permissions, $without = false)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereGuardName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereNameAr($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Role withoutPermission($permissions)
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
+ * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category withoutTrashed()
  */
-	class Role extends \Eloquent {}
+	class Category extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Invoice> $invoices
+ * @property-read int|null $invoices_count
+ * @method static \Database\Factories\ClientFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTrashed()
+ */
+	class Client extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property \App\Enums\InvoiceStatus $status
+ * @property-read \App\Models\Client|null $client
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $items
+ * @property-read int|null $items_count
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\InvoiceFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Invoice withoutTrashed()
+ */
+	class Invoice extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property-read \App\Models\Invoice|null $invoice
+ * @property-read \App\Models\Product|null $product
+ * @method static \Database\Factories\InvoiceItemFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|InvoiceItem withoutTrashed()
+ */
+	class InvoiceItem extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @method static \Database\Factories\LabourFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Labour newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Labour newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Labour onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Labour query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Labour withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Labour withoutTrashed()
+ */
+	class Labour extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * @property-read \App\Models\Category|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\InvoiceItem> $invoiceItems
+ * @property-read int|null $invoice_items_count
+ * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Product withoutTrashed()
+ */
+	class Product extends \Eloquent {}
 }
 
 namespace App\Models{

@@ -6,7 +6,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { can } from '@/helpers/can';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { Car, KeyRound, LayoutGrid, Users } from 'lucide-vue-next';
+import { Car, KeyRound, LayoutGrid, LayoutPanelTop, Users } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import AppLogo from './AppLogo.vue';
 
@@ -53,6 +53,11 @@ onMounted(() => {
                 title: 'موديل السيارة',
                 href: '/car-models',
                 icon: Car,
+            },
+            {
+                title: 'تصنيفات',
+                href: '/categories',
+                icon: LayoutPanelTop,
             },
         ],
     );

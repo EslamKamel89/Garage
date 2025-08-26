@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Dashboard\CarModelsController;
+use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
         ->only(['delete'])->middleware('permission:roles.delete');
 
     Route::resource('/car-models', CarModelsController::class);
+    Route::resource('/categories', CategoriesController::class);
 });
 
 

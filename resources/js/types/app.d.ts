@@ -18,7 +18,6 @@ export interface CarModel {
     id: number;
     name: string;
     year_range: YearRange;
-    deleted_at: any;
     created_at: string;
     updated_at: string;
     year_range_formatted: string;
@@ -27,4 +26,12 @@ export interface CarModel {
 export interface YearRange {
     from: number;
     to: number;
+}
+
+export interface Category {
+    id: number;
+    name: string;
+    description: string;
+    created_at: string;
+    updated_at: string;
 }

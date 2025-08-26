@@ -6,14 +6,15 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/component
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem } from '@/types';
-import { CarModel } from '@/types/app';
+import { Category } from '@/types/app';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { useBreakpoints } from '@vueuse/core';
-import { ChevronDown, Eye, Pen, Plus, Trash2 } from 'lucide-vue-next';
+import { ChevronDown, Eye, Filter, Pen, Plus, Trash2 } from 'lucide-vue-next';
+import Filters from './Filters.vue';
 import Show from './Show.vue';
 
 defineProps<{
-    car_models: CarModel[];
+    categories: Category[];
 }>();
 
 const breakpoints = useBreakpoints({ mobile: 640 });
@@ -21,39 +22,37 @@ const isMobile = breakpoints.smaller('mobile');
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'لوحة التحكم', href: '/dashboard' },
-    { title: 'موديلات السيارات', href: '/car-models' },
+    { title: 'الفئات', href: '/categories' },
 ];
 
-const deleteCarModel = (carModel: CarModel) => {
-    if (confirm('هل أنت متأكد أنك تريد حذف هذا الموديل؟')) {
-        router.delete(route('car-models.destroy', { car_model: carModel.id }));
+const deleteCategory = (category: Category) => {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذه الفئة؟')) {
+        router.delete(route('categories.destroy', { category: category.id }));
     }
 };
 </script>
 
 <template>
-    <Head title="جدول موديلات السيارات" />
+    <Head title="جدول الفئات" />
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <!--
             <Card>
                 <CardHeader>
                     <CardTitle class="flex items-center text-base">
-                        <Filter class="w-4 h-4 ml-2" />
+                        <Filter class="ml-2 h-4 w-4" />
                         تصفية النتائج
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <Filters :filters="{ year_from: null, year_to: null }" />
+                    <Filters :filters="{ search: null }" />
                 </CardContent>
             </Card>
-            -->
 
             <div class="flex w-full justify-end">
-                <Link :href="route('car-models.create')">
+                <Link :href="route('categories.create')" v-if="true">
                     <Button type="button">
                         <Plus class="ml-1" />
-                        <span>موديل جديد</span>
+                        <span>فئة جديدة</span>
                     </Button>
                 </Link>
             </div>
@@ -63,30 +62,30 @@ const deleteCarModel = (carModel: CarModel) => {
                 <TableHeader>
                     <TableRow>
                         <TableHead class="text-start"> الاسم </TableHead>
-                        <TableHead class="text-start"> نطاق السنوات </TableHead>
+                        <TableHead class="text-start"> الوصف </TableHead>
                         <TableHead class="text-start"> تاريخ الإنشاء </TableHead>
                         <TableHead class="text-end"> الإجراءات </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-for="car_model in car_models" :key="car_model.id">
-                        <TableCell class="font-medium">{{ car_model.name }}</TableCell>
-                        <TableCell>{{ car_model.year_range_formatted }}</TableCell>
-                        <TableCell>{{ car_model.created_at.split('T')[0] }}</TableCell>
+                    <TableRow v-for="category in categories" :key="category.id">
+                        <TableCell class="font-medium">{{ category.name }}</TableCell>
+                        <TableCell>{{ category.description }}</TableCell>
+                        <TableCell>{{ category.created_at.split('T')[0] }}</TableCell>
                         <TableCell class="text-end">
                             <div class="flex items-center justify-end space-x-2">
-                                <CustomDialog title="عرض الموديل" description="">
+                                <CustomDialog title="عرض الفئة" description="">
                                     <template #trigger>
                                         <Button variant="default" size="sm"><Eye /></Button>
                                     </template>
                                     <template #content>
-                                        <Show :id="car_model.id" />
+                                        <Show :id="category.id" />
                                     </template>
                                 </CustomDialog>
-                                <Link :href="route('car-models.edit', { car_model: car_model.id })">
+                                <Link :href="route('categories.edit', { category: category.id })" v-if="true">
                                     <Button variant="secondary" size="sm"><Pen /></Button>
                                 </Link>
-                                <Button @click="deleteCarModel(car_model)" variant="destructive" size="sm">
+                                <Button @click="deleteCategory(category)" variant="destructive" size="sm" v-if="true">
                                     <Trash2 />
                                 </Button>
                             </div>
@@ -97,13 +96,13 @@ const deleteCarModel = (carModel: CarModel) => {
 
             <!-- Mobile Cards -->
             <div class="space-y-2 md:hidden">
-                <Card v-for="car_model in car_models" :key="car_model.id">
+                <Card v-for="category in categories" :key="category.id">
                     <Collapsible>
                         <CollapsibleTrigger as-child>
                             <CardHeader class="flex cursor-pointer flex-row items-center justify-between p-4">
                                 <div>
-                                    <CardTitle class="text-base">{{ car_model.name }}</CardTitle>
-                                    <p class="text-sm text-muted-foreground">{{ car_model.year_range_formatted }}</p>
+                                    <CardTitle class="text-base">{{ category.name }}</CardTitle>
+                                    <p class="text-sm text-muted-foreground">{{ category.description }}</p>
                                 </div>
                                 <ChevronDown class="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                             </CardHeader>
@@ -111,26 +110,26 @@ const deleteCarModel = (carModel: CarModel) => {
                         <CollapsibleContent>
                             <CardContent class="space-y-3 pt-0">
                                 <div>
-                                    <p class="text-sm font-medium text-muted-foreground">نطاق السنوات</p>
-                                    <p class="text-sm">{{ car_model.year_range_formatted }}</p>
+                                    <p class="text-sm font-medium text-muted-foreground">الوصف</p>
+                                    <p class="text-sm">{{ category.description }}</p>
                                 </div>
                                 <div>
                                     <p class="text-sm font-medium text-muted-foreground">تاريخ الإنشاء</p>
-                                    <p class="text-sm">{{ car_model.created_at.split('T')[0] }}</p>
+                                    <p class="text-sm">{{ category.created_at.split('T')[0] }}</p>
                                 </div>
                                 <div class="flex justify-end space-x-2 pt-2">
-                                    <CustomDialog title="عرض الموديل" description="">
+                                    <CustomDialog title="عرض الفئة" description="">
                                         <template #trigger>
                                             <Button variant="default" size="sm"><Eye /></Button>
                                         </template>
                                         <template #content>
-                                            <Show :id="car_model.id" />
+                                            <Show :id="category.id" />
                                         </template>
                                     </CustomDialog>
-                                    <Link :href="route('car-models.edit', { car_model: car_model.id })">
+                                    <Link :href="route('categories.edit', { category: category.id })" v-if="true">
                                         <Button variant="secondary" size="sm"><Pen /></Button>
                                     </Link>
-                                    <Button @click="deleteCarModel(car_model)" variant="destructive" size="sm">
+                                    <Button @click="deleteCategory(category)" variant="destructive" size="sm" v-if="true">
                                         <Trash2 />
                                     </Button>
                                 </div>

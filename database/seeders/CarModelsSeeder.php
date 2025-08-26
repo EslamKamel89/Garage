@@ -12,14 +12,14 @@ class CarModelsSeeder extends Seeder {
      */
     public function run(): void {
         $models = [
-            ['name' => 'نيسان صني', 'year_range' => ['from' => 2015, 'to' => 2022]],
-            ['name' => 'نيسان تيدا', 'year_range' => ['from' => 2013, 'to' => 2020]],
-            ['name' => 'نيسان سنترا', 'year_range' => ['from' => 2016, 'to' => 2023]],
-            ['name' => 'نيسان جوك', 'year_range' => ['from' => 2017, 'to' => 2021]],
-            ['name' => 'نيسان قاشقاي', 'year_range' => ['from' => 2018, 'to' => 2023]],
-            ['name' => 'نيسان باترول', 'year_range' => ['from' => 2016, 'to' => 2022]],
-            ['name' => 'نيسان أرمادا', 'year_range' => ['from' => 2017, 'to' => 2023]],
-            ['name' => 'نيسان بيك أب', 'year_range' => ['from' => 2015, 'to' => 2021]],
+            ['name' => 'صني', 'year_range' => ['from' => 2015, 'to' => 2022]],
+            ['name' => 'تيدا', 'year_range' => ['from' => 2013, 'to' => 2020]],
+            ['name' => 'سنترا', 'year_range' => ['from' => 2016, 'to' => 2023]],
+            ['name' => 'جوك', 'year_range' => ['from' => 2017, 'to' => 2021]],
+            ['name' => 'قاشقاي', 'year_range' => ['from' => 2018, 'to' => 2023]],
+            ['name' => 'باترول', 'year_range' => ['from' => 2016, 'to' => 2022]],
+            ['name' => 'أرمادا', 'year_range' => ['from' => 2017, 'to' => 2023]],
+            ['name' => 'بيك أب', 'year_range' => ['from' => 2015, 'to' => 2021]],
         ];
         foreach ($models as $model) {
             CarModel::create($model);

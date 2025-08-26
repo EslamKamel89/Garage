@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -42,15 +43,19 @@ class Client extends Model {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'car_model_id',
         'name',
         'mobile',
         'email',
         'address',
-        'notes'
+        'notes',
     ];
 
     // Relationships
     public function invoices(): HasMany {
         return $this->hasMany(Invoice::class);
+    }
+    public  function carModel(): BelongsTo {
+        return $this->belongsTo(CarModel::class);
     }
 }

@@ -35,3 +35,15 @@ export interface Category {
     created_at: string;
     updated_at: string;
 }
+
+export interface Client {
+    id: number;
+    name: string;
+    mobile: string;
+    email: string;
+    address: string;
+    notes: string;
+    car_model: CarModel;
+    created_at: string;
+    updated_at: string;
+}

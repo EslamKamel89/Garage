@@ -11,8 +11,9 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('car_model_id')->nullable()->constrained('car_models')->nullOnDelete();
             $table->string('name');
-            $table->string('mobile')->unique();
+            $table->string('mobile')->nullable()->unique();
             $table->string('email')->nullable()->unique();
             $table->text('address')->nullable();
             $table->text('notes')->nullable();

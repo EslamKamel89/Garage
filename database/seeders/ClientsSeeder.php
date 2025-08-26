@@ -13,13 +13,15 @@ class ClientsSeeder extends Seeder {
     public function run(): void {
         $clients = [
             [
+                'car_model_id' => fake()->numberBetween(1, 8),
                 'name' => 'أحمد محمد',
                 'mobile' => '0591234567',
                 'email' => 'ahmed@example.com',
-                'address' => 'شارع الملك فهد، الرياض',
+                'address' => 'شارع  فهد، ',
                 'notes' => 'عميل موثوق، يأتي للصيانة كل 6 أشهر',
             ],
             [
+                'car_model_id' => fake()->numberBetween(1, 8),
                 'name' => 'خالد عبد الله',
                 'mobile' => '0592345678',
                 'email' => 'khalid@example.com',
@@ -27,6 +29,7 @@ class ClientsSeeder extends Seeder {
                 'notes' => 'يملك نيسان صني 2019',
             ],
             [
+                'car_model_id' => fake()->numberBetween(1, 8),
                 'name' => 'فهد سعيد',
                 'mobile' => '0593456789',
                 'email' => 'fahd@example.com',
@@ -34,6 +37,7 @@ class ClientsSeeder extends Seeder {
                 'notes' => 'يحتاج خدمة سريعة، لا يحب الانتظار',
             ],
             [
+                'car_model_id' => fake()->numberBetween(1, 8),
                 'name' => 'سامي عمر',
                 'mobile' => '0594567890',
                 'email' => 'sami@example.com',
@@ -41,6 +45,7 @@ class ClientsSeeder extends Seeder {
                 'notes' => 'عميل جديد، تم التواصل عبر واتساب',
             ],
             [
+                'car_model_id' => fake()->numberBetween(1, 8),
                 'name' => 'ناصر منصور',
                 'mobile' => '0595678901',
                 'email' => 'nasser@example.com',

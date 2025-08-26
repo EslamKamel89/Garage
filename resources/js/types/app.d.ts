@@ -47,3 +47,18 @@ export interface Client {
     created_at: string;
     updated_at: string;
 }
+export interface Product {
+    id: number;
+    category_id: number;
+    code: string;
+    name: string;
+    description: string;
+    buy_price: string;
+    sell_price: string;
+    quantity: number;
+    min_stock_quantity: number;
+    notes: string;
+    created_at: string;
+    updated_at: string;
+    category: Category;
+}

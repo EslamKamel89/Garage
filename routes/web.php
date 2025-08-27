@@ -3,9 +3,11 @@
 use App\Http\Controllers\Dashboard\CarModelsController;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\ClientsController;
+use App\Http\Controllers\Dashboard\InvoicesController;
 use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\StatisticsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,9 +17,7 @@ Route::middleware('auth')->group(function () {
         // return Inertia::render('Welcome');
     })->name('home');
 
-    Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [StatisticsController::class, 'index'])->name('dashboard');
 
 
     Route::resource('/users', UserController::class)
@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/categories', CategoriesController::class);
     Route::resource('/clients', ClientsController::class);
     Route::resource('/products', ProductsController::class);
+    Route::resource('/invoices', InvoicesController::class);
 });
 
 

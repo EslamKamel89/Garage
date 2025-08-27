@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import Input from '@/components/ui/input/Input.vue';
+import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { AppPageProps } from '@/types';
 import { CarModel } from '@/types/app';
@@ -40,7 +41,7 @@ const resetFilters = () => {
     <div class="mb-4 space-y-4">
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
             <div class="grid w-full items-center gap-1.5">
-                <label for="filter-search" class="text-sm font-medium">البحث</label>
+                <Label for="filter-search" class="text-sm font-medium">البحث</Label>
                 <Input id="filter-search" v-model="filters.search" type="text" placeholder="الاسم، الجوال، البريد..." />
             </div>
             <div class="grid w-full items-start gap-1.5">

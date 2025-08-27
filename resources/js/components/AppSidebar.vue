@@ -6,7 +6,7 @@ import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, Sid
 import { can } from '@/helpers/can';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { Barcode, Car, KeyRound, LayoutGrid, LayoutPanelTop, Users, UserSearch } from 'lucide-vue-next';
+import { Barcode, Car, KeyRound, LayoutGrid, LayoutPanelTop, ScrollText, Users, UserSearch } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import AppLogo from './AppLogo.vue';
 
@@ -68,6 +68,11 @@ onMounted(() => {
                 title: 'المنتجات',
                 href: '/products',
                 icon: Barcode,
+            },
+            {
+                title: 'فواتير',
+                href: '/invoices',
+                icon: ScrollText,
             },
         ],
     );

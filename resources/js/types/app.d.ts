@@ -62,3 +62,39 @@ export interface Product {
     updated_at: string;
     category: Category;
 }
+export interface Invoice {
+    id: number;
+    client_id: number;
+    user_id: number;
+    status: string;
+    calculated_total: string;
+    actual_total: string;
+    actual_paid_amount: string;
+    labor_info: LaborInfo;
+    notes: string;
+    deleted_at: any;
+    created_at: string;
+    updated_at: string;
+    client: Client;
+    user: User;
+}
+
+export interface LaborInfo {
+    items: Item[];
+}
+
+export interface Item {
+    fee: number;
+    name: string;
+}
+
+export interface Labour {
+    id: number;
+    name_ar: string;
+    name_en: string;
+    base_fee: string;
+    is_active: boolean;
+    deleted_at: any;
+    created_at: string;
+    updated_at: string;
+}

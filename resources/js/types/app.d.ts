@@ -53,8 +53,8 @@ export interface Product {
     code: string;
     name: string;
     description: string;
-    buy_price: string;
-    sell_price: string;
+    buy_price: number;
+    sell_price: number;
     quantity: number;
     min_stock_quantity: number;
     notes: string;
@@ -92,9 +92,16 @@ export interface Labour {
     id: number;
     name_ar: string;
     name_en: string;
-    base_fee: string;
+    base_fee: number;
     is_active: boolean;
     deleted_at: any;
     created_at: string;
     updated_at: string;
+}
+
+export interface InvoiceItem {
+    product_id: number;
+    quantity: number;
+    unit_price: number;
+    total: number;
 }

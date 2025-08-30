@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Client, Invoice, Labour, Product } from '@/types/app';
+import { Client, Invoice, InvoiceItem, Labour, Product } from '@/types/app';
 import { router } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 
@@ -13,21 +13,21 @@ const props = defineProps<{
     products?: Product[];
     labours?: Labour[];
     invoice?: Invoice;
-    action?: 'create' | 'edit';
+    action?: 'create' | 'edit' | 'show';
 }>();
 
 // const { toast } = useToast();
 
 // Form state
 const form = ref({
-    client_id: props.invoice?.client_id ?? '',
-    items:
-        props.invoice?.items?.map((item) => ({
-            product_id: item.product_id,
-            quantity: item.quantity,
-            unit_price: item.unit_price,
-            total: item.total_price,
-        })) ?? [],
+    client_id: props.invoice?.client_id ?? null,
+    // items: (props.invoice?.items?.map((item) => ({
+    //     product_id: item.product_id,
+    //     quantity: item.quantity,
+    //     unit_price: item.unit_price,
+    //     total: item.total_price,
+    // })) ?? []) as InvoiceItem[],
+    items: [] as InvoiceItem[],
     labor_info: { items: props.invoice?.labor_info?.items ?? [] },
     actual_total: props.invoice?.actual_total ?? 0,
     actual_paid_amount: props.invoice?.actual_paid_amount ?? 0,
@@ -37,14 +37,17 @@ const form = ref({
 
 // Search states
 const productSearch = ref('');
+const clientSearch = ref('');
+const selectedClient = ref<Client>();
 const laborSearch = ref('');
+const filteredClients = ref<Client[]>([]);
 const filteredProducts = ref<Product[]>([]);
 const filteredLabours = ref<Labour[]>([]);
 
 // Computed
 const calculatedTotal = computed(() => {
-    const productTotal = form.value.items.reduce((sum, item) => sum + item.total, 0);
-    const laborTotal = form.value.labor_info.items.reduce((sum, item) => sum + item.fee, 0);
+    const productTotal: number = form.value.items.reduce((sum: number, item) => sum + Number(item.total), 0);
+    const laborTotal: number = form.value.labor_info.items.reduce((sum, item) => sum + Number(item.fee), 0);
     return productTotal + laborTotal;
 });
 
@@ -56,6 +59,17 @@ watch(calculatedTotal, (val) => {
 });
 
 // Methods
+const addClient = (client: Client) => {
+    form.value.client_id = client.id;
+    selectedClient.value = client;
+    clientSearch.value = '';
+};
+
+const removeClient = () => {
+    form.value.client_id = null;
+    selectedClient.value = undefined;
+};
+
 const addProduct = (product: Product) => {
     const item = {
         product_id: product.id,
@@ -65,7 +79,7 @@ const addProduct = (product: Product) => {
     };
     form.value.items.push(item);
     productSearch.value = '';
-    filteredProducts.value = [];
+    // filteredProducts.value = [];
 };
 
 const removeProduct = (index: number) => {
@@ -81,7 +95,7 @@ const addLabor = (labour: Labour) => {
     const item = { name: labour.name_ar, fee: labour.base_fee };
     form.value.labor_info.items.push(item);
     laborSearch.value = '';
-    filteredLabours.value = [];
+    // filteredLabours.value = [];
 };
 
 const removeLabor = (index: number) => {
@@ -113,21 +127,29 @@ const saveInvoice = () => {
 };
 
 // Search filtering
-watch(productSearch, () => {
-    if (productSearch.value.length > 0) {
+watch(
+    clientSearch,
+    () => {
+        filteredClients.value = (props.clients || []).filter((p) => p.name.includes(clientSearch.value) || p.mobile.includes(clientSearch.value));
+        // console.log(filterd);
+    },
+    { immediate: true },
+);
+watch(
+    productSearch,
+    () => {
         filteredProducts.value = (props.products || []).filter((p) => p.name.includes(productSearch.value) || p.code.includes(productSearch.value));
-    } else {
-        filteredProducts.value = [];
-    }
-});
+    },
+    { immediate: true },
+);
 
-watch(laborSearch, () => {
-    if (laborSearch.value.length > 0) {
+watch(
+    laborSearch,
+    () => {
         filteredLabours.value = (props.labours || []).filter((l) => l.name_ar.includes(laborSearch.value));
-    } else {
-        filteredLabours.value = [];
-    }
-});
+    },
+    { immediate: true },
+);
 </script>
 
 <template>
@@ -136,19 +158,28 @@ watch(laborSearch, () => {
             <CardTitle>إنشاء فاتورة</CardTitle>
         </CardHeader>
         <CardContent class="space-y-6">
-            <!-- Client -->
-            <div class="grid w-full items-center gap-1.5">
+            <!-- Clients -->
+            <div>
                 <Label>العميل</Label>
-                <Select v-model="form.client_id" required>
-                    <SelectTrigger>
-                        <SelectValue placeholder="اختر العميل" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem v-for="client in clients" :key="client.id" :value="client.id">
-                            {{ client.name }} - {{ client.mobile }}
-                        </SelectItem>
-                    </SelectContent>
-                </Select>
+                <div class="mt-2">
+                    <Input v-model="clientSearch" placeholder="ابحث عن عميل..." />
+                    <div v-if="filteredClients.length" class="mt-2 max-h-40 overflow-auto rounded-md border p-2">
+                        <div
+                            v-for="client in filteredClients"
+                            :key="client.id"
+                            @click="addClient(client)"
+                            class="cursor-pointer p-2 hover:bg-gray-100"
+                        >
+                            {{ client.name }} ({{ client.mobile }})
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 space-y-2">
+                    <div v-if="selectedClient" class="space-x-4">
+                        <span class="w-20">{{ selectedClient.name }} ({{ selectedClient.mobile }})</span>
+                        <Button @click="removeClient()" variant="destructive" size="sm">حذف</Button>
+                    </div>
+                </div>
             </div>
 
             <!-- Products -->
@@ -169,7 +200,7 @@ watch(laborSearch, () => {
                 </div>
                 <div class="mt-4 space-y-2">
                     <div v-for="(item, index) in form.items" :key="index" class="flex items-center gap-2">
-                        <span class="flex-1">{{ products.find((p) => p.id === item.product_id)?.name }}</span>
+                        <span class="flex-1">{{ products?.find((p) => p.id === item.product_id)?.name }}</span>
                         <Input v-model.number="item.quantity" @input="updateProductQuantity(index)" type="number" class="w-20" />
                         <Input v-model.number="item.unit_price" @input="updateProductQuantity(index)" type="number" class="w-24" />
                         <span class="w-20">{{ item.total }} ج</span>

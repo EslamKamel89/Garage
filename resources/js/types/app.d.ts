@@ -66,7 +66,7 @@ export interface Invoice {
     id: number;
     client_id: number;
     user_id: number;
-    status: string;
+    status: 'unpaid' | 'paid' | 'partial' | 'cancelled';
     calculated_total: string;
     actual_total: string;
     actual_paid_amount: string;

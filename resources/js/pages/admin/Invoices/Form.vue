@@ -6,7 +6,7 @@ import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Client, Invoice, InvoiceItem, Item, Labour, Product } from '@/types/app';
 import { router } from '@inertiajs/vue3';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{
     clients?: Client[];
@@ -157,6 +157,11 @@ watch(
     },
     { immediate: true },
 );
+onMounted(() => {
+    if (props.action === 'edit') {
+        selectedClient.value = props.invoice?.client;
+    }
+});
 </script>
 
 <template>

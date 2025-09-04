@@ -2,6 +2,7 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { AppPageProps } from '@/types';
 import { usePage } from '@inertiajs/vue3';
+import { Terminal } from 'lucide-vue-next';
 const page = usePage<AppPageProps>();
 </script>
 <template>

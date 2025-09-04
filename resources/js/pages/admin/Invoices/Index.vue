@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import CustomDialog from '@/components/shared/CustomDialog.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -8,9 +7,8 @@ import { BreadcrumbItem } from '@/types';
 import { Invoice } from '@/types/app';
 import { Head, Link } from '@inertiajs/vue3';
 import { useBreakpoints } from '@vueuse/core';
-import { Eye, Filter, Pen, Plus, Trash2 } from 'lucide-vue-next';
+import { Filter, Pen, Plus, Trash2 } from 'lucide-vue-next';
 import Filters from './Filters.vue';
-import Show from './Show.vue';
 
 defineProps<{
     invoices: Invoice[];
@@ -37,6 +35,7 @@ const statusColors = {
     partial: 'text-blue-600',
     cancelled: 'text-red-600',
 };
+const deleteInvoice = (invoice: Invoice) => {};
 </script>
 
 <template>
@@ -87,6 +86,7 @@ const statusColors = {
                         </TableCell>
                         <TableCell class="text-end">
                             <div class="flex items-center justify-end space-x-2">
+                                <!--
                                 <CustomDialog title="عرض الفاتورة" description="">
                                     <template #trigger>
                                         <Button variant="default" size="sm"><Eye /></Button>
@@ -95,6 +95,7 @@ const statusColors = {
                                         <Show :id="invoice.id" />
                                     </template>
                                 </CustomDialog>
+                                -->
                                 <Link :href="route('invoices.edit', { invoice: invoice.id })">
                                     <Button variant="secondary" size="sm"><Pen /></Button>
                                 </Link>
@@ -122,6 +123,7 @@ const statusColors = {
                         </div>
                         <div class="mt-3 flex justify-end">
                             <div class="flex items-center justify-end space-x-2">
+                                <!--
                                 <CustomDialog title="عرض الفاتورة" description="">
                                     <template #trigger>
                                         <Button variant="default" size="sm"><Eye /></Button>
@@ -130,6 +132,7 @@ const statusColors = {
                                         <Show :id="invoice.id" />
                                     </template>
                                 </CustomDialog>
+                                -->
                                 <Link :href="route('invoices.edit', { invoice: invoice.id })">
                                     <Button variant="secondary" size="sm"><Pen /></Button>
                                 </Link>

@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem } from '@/types';
-import { Invoice } from '@/types/app';
+import { Client, Invoice, Labour, Product } from '@/types/app';
 import { Head, usePage } from '@inertiajs/vue3';
 import Form from './Form.vue';
 
 defineProps<{
     invoice: Invoice;
-    clients: any[];
-    products: any[];
-    labours: any[];
+    clients: Client[];
+    products: Product[];
+    labours: Labour[];
 }>();
 
 const page = usePage();

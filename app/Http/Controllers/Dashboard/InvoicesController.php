@@ -44,53 +44,57 @@ class InvoicesController extends Controller {
 
     public function store(Request $request) {
         // dd($request->all());
-        $validated = $request->validate([
-            'client_id' => 'required|exists:clients,id',
-            'items' => 'required|array|min:1',
-            'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
-            'items.*.unit_price' => 'required|numeric|min:0',
-            'labor_info.items' => 'array',
-            'labor_info.items.*.name' => 'required|string',
-            'labor_info.items.*.fee' => 'required|numeric|min:0',
-            'actual_total' => 'required|numeric|min:0',
-            'actual_paid_amount' => 'required|numeric|min:0',
-            'status' => 'required|in:unpaid,paid,partial,cancelled',
-            'notes' => 'nullable|string',
-        ]);
-        DB::transaction(function () use ($request) {
-            $invoice = Invoice::create([
-                'client_id' => $request->client_id,
-                'user_id' => auth()->id(),
-                'status' => $request->status,
-                'calculated_total' => collect($request->items)->sum(fn($i) => $i['quantity'] * $i['unit_price']) +
-                    collect($request->labor_info['items'] ?? [])->sum('fee'),
-                'actual_total' => $request->actual_total,
-                'actual_paid_amount' => $request->actual_paid_amount,
-                'labor_info' => $request->labor_info,
-                'notes' => $request->notes,
+        try {
+            $validated = $request->validate([
+                'client_id' => 'required|exists:clients,id',
+                'items' => 'required|array|min:1',
+                'items.*.product_id' => 'required|exists:products,id',
+                'items.*.quantity' => 'required|integer|min:1',
+                'items.*.unit_price' => 'required|numeric|min:0',
+                'labor_info.items' => 'array',
+                'labor_info.items.*.name' => 'required|string',
+                'labor_info.items.*.fee' => 'required|numeric|min:0',
+                'actual_total' => 'required|numeric|min:0',
+                'actual_paid_amount' => 'required|numeric|min:0',
+                'status' => 'required|in:unpaid,paid,partial,cancelled',
+                'notes' => 'nullable|string',
             ]);
-
-            foreach ($request->items as $item) {
-                $product = Product::lockForUpdate()->findOrFail($item['product_id']);
-
-                if ($product->quantity < $item['quantity']) {
-                    throw new \Exception("الكمية غير كافية للمنتج: {$product->name}");
-                }
-
-                InvoiceItem::create([
-                    'invoice_id' => $invoice->id,
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'unit_price' => $item['unit_price'],
-                    'total_price' => $item['quantity'] * $item['unit_price'],
+            DB::transaction(function () use ($request) {
+                $invoice = Invoice::create([
+                    'client_id' => $request->client_id,
+                    'user_id' => auth()->id(),
+                    'status' => $request->status,
+                    'calculated_total' => collect($request->items)->sum(fn($i) => $i['quantity'] * $i['unit_price']) +
+                        collect($request->labor_info['items'] ?? [])->sum('fee'),
+                    'actual_total' => $request->actual_total,
+                    'actual_paid_amount' => $request->actual_paid_amount,
+                    'labor_info' => $request->labor_info,
+                    'notes' => $request->notes,
                 ]);
 
-                $product->decrement('quantity', $item['quantity']);
-            }
-        });
+                foreach ($request->items as $item) {
+                    $product = Product::lockForUpdate()->findOrFail($item['product_id']);
 
-        return redirect()->route('invoices.index')->with('success', 'تم إنشاء الفاتورة بنجاح.');
+                    if ($product->quantity < $item['quantity']) {
+                        throw new \Exception("الكمية غير كافية للمنتج: {$product->name} - الكمية المتاحة هي {$product->quantity} قطع");
+                    }
+
+                    InvoiceItem::create([
+                        'invoice_id' => $invoice->id,
+                        'product_id' => $item['product_id'],
+                        'quantity' => $item['quantity'],
+                        'unit_price' => $item['unit_price'],
+                        'total_price' => $item['quantity'] * $item['unit_price'],
+                    ]);
+
+                    $product->decrement('quantity', $item['quantity']);
+                }
+            });
+
+            return redirect()->route('invoices.index')->with('success', 'تم إنشاء الفاتورة بنجاح.');
+        } catch (\Throwable $th) {
+            return redirect()->route('invoices.create')->with('error', $th->getMessage());
+        }
     }
 
     public function show(Invoice $invoice) {

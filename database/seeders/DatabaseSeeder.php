@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder {
             CarModelsSeeder::class,
             ClientsSeeder::class,
             ProductsSeeder::class,
-            InvoicesSeeder::class,
+            // InvoicesSeeder::class,
         ]);
     }
 }

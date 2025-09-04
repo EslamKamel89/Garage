@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Client, Invoice, InvoiceItem, Item, Labour, Product } from '@/types/app';
+import { Client, Invoice, InvoiceItemEntity, Item, Labour, Product } from '@/types/app';
 import { router } from '@inertiajs/vue3';
 import { computed, onMounted, ref, watch } from 'vue';
 
@@ -23,11 +23,11 @@ const form = ref({
     client_id: props.invoice?.client_id ?? null,
     // items: (props.invoice?.items?.map((item) => ({
     //     product_id: item.product_id,
-    //     quantity: item.quantity,
-    //     unit_price: item.unit_price,
-    //     total: item.total_price,
-    // })) ?? []) as InvoiceItem[],
-    items: [] as InvoiceItem[],
+    //     quantity: Number(item.quantity),
+    //     unit_price: Number(item.unit_price),
+    //     total: Number(item.total_price),
+    // })) ?? []) as InvoiceItemEntity[],
+    items: [] as InvoiceItemEntity[],
     labor_info: { items: props.invoice?.labor_info?.items ?? [] },
     actual_total: props.invoice?.actual_total ?? 0,
     actual_paid_amount: props.invoice?.actual_paid_amount ?? 0,
@@ -160,6 +160,12 @@ watch(
 onMounted(() => {
     if (props.action === 'edit') {
         selectedClient.value = props.invoice?.client;
+        form.value.items = (props.invoice?.items?.map((item) => ({
+            product_id: item.product_id,
+            quantity: Number(item.quantity),
+            unit_price: Number(item.unit_price),
+            total: Number(item.total_price),
+        })) ?? []) as InvoiceItemEntity[];
     }
 });
 </script>

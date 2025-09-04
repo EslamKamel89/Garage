@@ -76,7 +76,20 @@ export interface Invoice {
     created_at: string;
     updated_at: string;
     client: Client;
+    items: InvoiceItem[];
     user: User;
+}
+export interface InvoiceItem {
+    id: number;
+    invoice_id: number;
+    product_id: number;
+    quantity: number;
+    unit_price: string;
+    total_price: string;
+    deleted_at: any;
+    created_at: string;
+    updated_at: string;
+    product: Product;
 }
 
 export interface LaborInfo {
@@ -99,7 +112,7 @@ export interface Labour {
     updated_at: string;
 }
 
-export interface InvoiceItem {
+export interface InvoiceItemEntity {
     product_id: number;
     quantity: number;
     unit_price: number;

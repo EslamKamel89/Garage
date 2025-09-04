@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem } from '@/types';
 import { Invoice } from '@/types/app';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import { useBreakpoints } from '@vueuse/core';
 import { Filter, Pen, Plus, Trash2 } from 'lucide-vue-next';
 import Filters from './Filters.vue';
@@ -35,7 +35,11 @@ const statusColors = {
     partial: 'text-blue-600',
     cancelled: 'text-red-600',
 };
-const deleteInvoice = (invoice: Invoice) => {};
+const deleteInvoice = (invoice: Invoice) => {
+    if (confirm('هل أنت متأكد أنك تريد حذف هذه الفاتورة')) {
+        router.delete(route('invoices.destroy', { invoice: invoice.id }));
+    }
+};
 </script>
 
 <template>

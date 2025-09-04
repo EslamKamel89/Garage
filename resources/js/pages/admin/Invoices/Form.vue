@@ -4,7 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import Input from '@/components/ui/input/Input.vue';
 import Label from '@/components/ui/label/Label.vue';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Client, Invoice, InvoiceItem, Labour, Product } from '@/types/app';
+import { Client, Invoice, InvoiceItem, Item, Labour, Product } from '@/types/app';
 import { router } from '@inertiajs/vue3';
 import { computed, ref, watch } from 'vue';
 
@@ -97,7 +97,14 @@ const addLabor = (labour: Labour) => {
     laborSearch.value = '';
     // filteredLabours.value = [];
 };
-
+const customLabour = ref<Item>({
+    fee: 0,
+    name: '',
+});
+const addCustomLabor = () => {
+    if (customLabour.value.name !== '') form.value.labor_info.items.push(customLabour.value);
+    customLabour.value = { fee: 0, name: '' };
+};
 const removeLabor = (index: number) => {
     form.value.labor_info.items.splice(index, 1);
 };
@@ -223,6 +230,13 @@ watch(
                         >
                             {{ labour.name_ar }} - {{ labour.base_fee }} ج
                         </div>
+                    </div>
+                </div>
+                <div class="mt-4 space-y-2">
+                    <div class="flex items-center gap-2">
+                        <Input v-model="customLabour.name" class="flex-1" />
+                        <Input v-model.number="customLabour.fee" type="number" class="w-24" />
+                        <Button @click="addCustomLabor()" variant="default" size="sm">اضافة</Button>
                     </div>
                 </div>
                 <div class="mt-4 space-y-2">

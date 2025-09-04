@@ -43,6 +43,7 @@ class InvoicesController extends Controller {
     }
 
     public function store(Request $request) {
+        // dd($request->all());
         $validated = $request->validate([
             'client_id' => 'required|exists:clients,id',
             'items' => 'required|array|min:1',

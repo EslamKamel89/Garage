@@ -16,6 +16,9 @@ return new class extends Migration {
             $table->string('mobile')->nullable()->unique();
             $table->string('email')->nullable()->unique();
             $table->text('address')->nullable();
+            $table->string('chassis_nu')->nullable();
+            $table->string('plate_nu')->nullable();
+            $table->integer('odometer')->nullable();
             $table->text('notes')->nullable();
             $table->softDeletes();
             $table->timestamps();

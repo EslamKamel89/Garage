@@ -49,6 +49,9 @@ class Client extends Model {
         'email',
         'address',
         'notes',
+        'chassis_nu',
+        'plate_nu',
+        'odometer',
     ];
 
     // Relationships

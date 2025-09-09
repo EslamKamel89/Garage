@@ -18,6 +18,9 @@ const form = useForm({
     mobile: props.client?.mobile ?? '',
     email: props.client?.email ?? '',
     address: props.client?.address ?? '',
+    odometer: props.client?.odometer ?? 0,
+    chassis_nu: props.client?.chassis_nu ?? '',
+    plate_nu: props.client?.plate_nu ?? '',
     notes: props.client?.notes ?? '',
 });
 
@@ -36,8 +39,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-        <form @submit.prevent="submit" class="flex w-full flex-col items-start space-y-3">
+    <div class="flex flex-col flex-1 h-full gap-4 p-4 rounded-xl">
+        <form @submit.prevent="submit" class="flex flex-col items-start w-full space-y-3">
             <div class="grid w-full items-center gap-1.5">
                 <Label for="name">الاسم</Label>
                 <Input :disabled="action === 'show'" v-model="form.name" id="name" type="text" />
@@ -95,6 +98,27 @@ onMounted(() => {
                 </div>
             </div>
 
+            <div class="grid w-full items-center gap-1.5">
+                <Label for="chassis">رقم الشاسية</Label>
+                <Input :disabled="action === 'show'" v-model="form.chassis_nu" id="chassis" type="text" />
+                <div class="text-xs font-thin text-red-700" v-if="form.errors.chassis_nu">
+                    {{ form.errors.chassis_nu }}
+                </div>
+            </div>
+            <div class="grid w-full items-center gap-1.5">
+                <Label for="odometer"> عداد السيارة </Label>
+                <Input :disabled="action === 'show'" v-model.number="form.odometer" id="odometer" type="number" />
+                <div class="text-xs font-thin text-red-700" v-if="form.errors.odometer">
+                    {{ form.errors.odometer }}
+                </div>
+            </div>
+            <div class="grid w-full items-center gap-1.5">
+                <Label for="plate_nu"> رقم لوحة السيارة</Label>
+                <Input :disabled="action === 'show'" v-model="form.plate_nu" id="plate_nu" type="text" />
+                <div class="text-xs font-thin text-red-700" v-if="form.errors.plate_nu">
+                    {{ form.errors.plate_nu }}
+                </div>
+            </div>
             <div class="grid w-full items-center gap-1.5">
                 <Label for="notes">ملاحظات</Label>
                 <Input :disabled="action === 'show'" v-model="form.notes" id="notes" type="text" />

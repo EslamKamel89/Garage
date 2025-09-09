@@ -38,11 +38,14 @@ export interface Category {
 
 export interface Client {
     id: number;
-    name: string;
-    mobile: string;
-    email: string;
-    address: string;
-    notes: string;
+    name: string | null;
+    mobile: string | null;
+    email: string | null;
+    address: string | null;
+    notes: string | null;
+    chassis_nu: string | null;
+    plate_nu: string | null;
+    odometer: number;
     car_model: CarModel;
     created_at: string;
     updated_at: string;

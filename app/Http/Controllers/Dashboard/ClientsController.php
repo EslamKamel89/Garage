@@ -41,6 +41,9 @@ class ClientsController extends Controller {
             'mobile' => 'nullable|string|max:255|unique:clients',
             'email' => 'nullable|string|email|max:255|unique:clients',
             'address' => 'nullable|string',
+            'chassis_nu' => 'nullable|string',
+            'plate_nu' => 'nullable|string',
+            'odometer' => 'nullable|integer',
             'notes' => 'nullable|string',
         ]);
         Client::create($validated);
@@ -68,6 +71,9 @@ class ClientsController extends Controller {
             'mobile' => 'required|string|max:255|unique:clients,mobile,' . $client->id,
             'email' => 'nullable|string|email|max:255|unique:clients,email,' . $client->id,
             'address' => 'nullable|string',
+            'chassis_nu' => 'nullable|string',
+            'plate_nu' => 'nullable|string',
+            'odometer' => 'nullable|integer',
             'notes' => 'nullable|string',
         ]);
         $client->update($validated);

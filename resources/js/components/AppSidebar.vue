@@ -3,10 +3,9 @@ import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { can } from '@/helpers/can';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { Barcode, Car, KeyRound, LayoutGrid, LayoutPanelTop, ScrollText, Users, UserSearch } from 'lucide-vue-next';
+import { Barcode, Car, LayoutGrid, LayoutPanelTop, ScrollText, UserSearch } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import AppLogo from './AppLogo.vue';
 
@@ -32,21 +31,21 @@ const footerNavItems: NavItem[] = [
 ];
 onMounted(() => {
     // console.log({ test: can('users.view') });
-    if (can('users.view')) {
-        mainNavItems.value.push({
-            title: 'المستخدمين،',
-            href: '/users',
-            icon: Users,
-        });
-    }
+    // if (can('users.view')) {
+    //     mainNavItems.value.push({
+    //         title: 'المستخدمين،',
+    //         href: '/users',
+    //         icon: Users,
+    //     });
+    // }
 
-    if (can('roles.view')) {
-        mainNavItems.value.push({
-            title: 'الأدوار',
-            href: '/roles',
-            icon: KeyRound,
-        });
-    }
+    // if (can('roles.view')) {
+    //     mainNavItems.value.push({
+    //         title: 'الأدوار',
+    //         href: '/roles',
+    //         icon: KeyRound,
+    //     });
+    // }
     mainNavItems.value.push(
         ...[
             {

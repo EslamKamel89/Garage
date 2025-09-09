@@ -35,11 +35,11 @@ const deleteClient = (client: Client) => {
 <template>
     <Head title="جدول العملاء" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+        <div class="flex flex-col flex-1 h-full gap-4 p-4 rounded-xl">
             <Card>
                 <CardHeader>
                     <CardTitle class="flex items-center text-base">
-                        <Filter class="ml-2 h-4 w-4" />
+                        <Filter class="w-4 h-4 ml-2" />
                         تصفية النتائج
                     </CardTitle>
                 </CardHeader>
@@ -48,7 +48,7 @@ const deleteClient = (client: Client) => {
                 </CardContent>
             </Card>
 
-            <div class="flex w-full justify-end">
+            <div class="flex justify-end w-full">
                 <Link :href="route('clients.create')" v-if="true">
                     <Button type="button">
                         <Plus class="ml-1" />
@@ -65,6 +65,9 @@ const deleteClient = (client: Client) => {
                         <TableHead class="text-start"> الجوال </TableHead>
                         <TableHead class="text-start">موديل السيارة </TableHead>
                         <TableHead class="text-start"> البريد </TableHead>
+                        <TableHead class="text-start"> رقم الشاسية </TableHead>
+                        <TableHead class="text-start"> عداد السيارة </TableHead>
+                        <TableHead class="text-start"> رقم لوحة السيارة </TableHead>
                         <TableHead class="text-start"> العنوان </TableHead>
                         <TableHead class="text-start"> ملاحظات </TableHead>
                         <TableHead class="text-end"> الإجراءات </TableHead>
@@ -76,6 +79,9 @@ const deleteClient = (client: Client) => {
                         <TableCell>{{ client.mobile }}</TableCell>
                         <TableCell>{{ client.car_model.name }}</TableCell>
                         <TableCell>{{ client.email }}</TableCell>
+                        <TableCell>{{ client.chassis_nu }}</TableCell>
+                        <TableCell>{{ client.odometer }}</TableCell>
+                        <TableCell>{{ client.plate_nu }}</TableCell>
                         <TableCell>{{ client.address }}</TableCell>
                         <TableCell>{{ client.notes }}</TableCell>
                         <TableCell class="text-end">
@@ -105,7 +111,7 @@ const deleteClient = (client: Client) => {
                 <Card v-for="client in clients" :key="client.id">
                     <Collapsible>
                         <CollapsibleTrigger as-child>
-                            <CardHeader class="flex cursor-pointer flex-row items-center justify-between p-4">
+                            <CardHeader class="flex flex-row items-center justify-between p-4 cursor-pointer">
                                 <div>
                                     <CardTitle class="text-base">{{ client.name }}</CardTitle>
                                     <p class="text-sm text-muted-foreground">{{ client.mobile }}</p>
@@ -114,7 +120,7 @@ const deleteClient = (client: Client) => {
                             </CardHeader>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            <CardContent class="space-y-3 pt-0">
+                            <CardContent class="pt-0 space-y-3">
                                 <div>
                                     <p class="text-sm font-medium text-muted-foreground">الجوال</p>
                                     <p class="text-sm">{{ client.mobile }}</p>
@@ -128,6 +134,18 @@ const deleteClient = (client: Client) => {
                                     <p class="text-sm">{{ client.email }}</p>
                                 </div>
                                 <div>
+                                    <p class="text-sm font-medium text-muted-foreground">رقم الشاسية</p>
+                                    <p class="text-sm">{{ client.chassis_nu }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-muted-foreground">عداد السيارة</p>
+                                    <p class="text-sm">{{ client.odometer }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-muted-foreground">رقم لوحة السيارة</p>
+                                    <p class="text-sm">{{ client.plate_nu }}</p>
+                                </div>
+                                <div>
                                     <p class="text-sm font-medium text-muted-foreground">العنوان</p>
                                     <p class="text-sm">{{ client.address }}</p>
                                 </div>
@@ -135,7 +153,7 @@ const deleteClient = (client: Client) => {
                                     <p class="text-sm font-medium text-muted-foreground">ملاحظات</p>
                                     <p class="text-sm">{{ client.notes }}</p>
                                 </div>
-                                <div class="flex justify-end space-x-2 pt-2">
+                                <div class="flex justify-end pt-2 space-x-2">
                                     <CustomDialog title="عرض العميل" description="">
                                         <template #trigger>
                                             <Button variant="default" size="sm"><Eye /></Button>

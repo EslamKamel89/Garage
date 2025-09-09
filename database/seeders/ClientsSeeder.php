@@ -19,6 +19,9 @@ class ClientsSeeder extends Seeder {
                 'email' => 'ahmed@example.com',
                 'address' => 'شارع  فهد، ',
                 'notes' => 'عميل موثوق، يأتي للصيانة كل 6 أشهر',
+                'chassis_nu' => 'JN1BJ0HRXFM123456',
+                'plate_nu' => 'ج د 1234',
+                'odometer' => 45678
             ],
             [
                 'car_model_id' => fake()->numberBetween(1, 8),
@@ -27,6 +30,9 @@ class ClientsSeeder extends Seeder {
                 'email' => 'khalid@example.com',
                 'address' => 'حي النخيل',
                 'notes' => 'يملك نيسان صني 2019',
+                'chassis_nu' => 'ZFA22300005567890',
+                'plate_nu' => 'ه و 5678',
+                'odometer' => 89234
             ],
             [
                 'car_model_id' => fake()->numberBetween(1, 8),
@@ -35,6 +41,9 @@ class ClientsSeeder extends Seeder {
                 'email' => 'fahd@example.com',
                 'address' => ' حي العليا',
                 'notes' => 'يحتاج خدمة سريعة، لا يحب الانتظار',
+                'chassis_nu' => 'WAUZZZ8K9FA123789',
+                'plate_nu' => 'أ ب 9012',
+                'odometer' => 123456
             ],
             [
                 'car_model_id' => fake()->numberBetween(1, 8),
@@ -43,6 +52,9 @@ class ClientsSeeder extends Seeder {
                 'email' => 'sami@example.com',
                 'address' => '  شارع إبراهيم الخليل',
                 'notes' => 'عميل جديد، تم التواصل عبر واتساب',
+                'chassis_nu' => 'KMHTC6AE2FU345678',
+                'plate_nu' => 'ر س 3456',
+                'odometer' => 23456
             ],
             [
                 'car_model_id' => fake()->numberBetween(1, 8),
@@ -51,6 +63,9 @@ class ClientsSeeder extends Seeder {
                 'email' => 'nasser@example.com',
                 'address' => '  حي الأندلس',
                 'notes' => 'يملك سيارتين نيسان',
+                'chassis_nu' => '1HGCM82633A123456',
+                'plate_nu' => 'م ن 7890',
+                'odometer' => 67890
             ],
         ];
         foreach ($clients as $client) {

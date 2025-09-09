@@ -97,7 +97,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Client withoutTrashed()
  * @mixin \Eloquent
+ * @property int|null $car_model_id
  * @property-read \App\Models\CarModel|null $carModel
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Client whereCarModelId($value)
  */
 	class Client extends \Eloquent {}
 }

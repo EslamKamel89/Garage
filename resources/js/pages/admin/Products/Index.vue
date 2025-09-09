@@ -75,7 +75,7 @@ const deleteProduct = (product: Product) => {
                         <TableCell class="font-mono text-sm">{{ product.code }}</TableCell>
                         <TableCell class="font-medium">{{ product.name }}</TableCell>
                         <TableCell>{{ product.category?.name }}</TableCell>
-                        <TableCell>{{ product.sell_price }} ر.س</TableCell>
+                        <TableCell>{{ product.sell_price }}ج.م</TableCell>
                         <TableCell>
                             <span
                                 :class="{
@@ -127,7 +127,7 @@ const deleteProduct = (product: Product) => {
                             <CardContent class="space-y-3 pt-0">
                                 <div class="grid grid-cols-2">
                                     <p class="text-sm font-medium text-muted-foreground">السعر</p>
-                                    <p class="text-sm">{{ product.sell_price }} ر.س</p>
+                                    <p class="text-sm">{{ product.sell_price }}ج.م</p>
                                 </div>
                                 <div class="grid grid-cols-2">
                                     <p class="text-sm font-medium text-muted-foreground">الكمية</p>

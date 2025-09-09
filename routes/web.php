@@ -4,6 +4,7 @@ use App\Http\Controllers\Dashboard\CarModelsController;
 use App\Http\Controllers\Dashboard\CategoriesController;
 use App\Http\Controllers\Dashboard\ClientsController;
 use App\Http\Controllers\Dashboard\InvoicesController;
+use App\Http\Controllers\Dashboard\LaboursController;
 use App\Http\Controllers\Dashboard\ProductsController;
 use App\Http\Controllers\Dashboard\RoleController;
 use App\Http\Controllers\Dashboard\UserController;
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/clients', ClientsController::class);
     Route::resource('/products', ProductsController::class);
     Route::resource('/invoices', InvoicesController::class);
+    Route::resource('/labours', LaboursController::class);
 });
 
 

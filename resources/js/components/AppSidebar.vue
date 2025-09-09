@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { Barcode, Car, LayoutGrid, LayoutPanelTop, ScrollText, UserSearch } from 'lucide-vue-next';
+import { Barcode, BicepsFlexed, Car, LayoutGrid, LayoutPanelTop, ScrollText, UserSearch } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import AppLogo from './AppLogo.vue';
 
@@ -67,6 +67,11 @@ onMounted(() => {
                 title: 'المنتجات',
                 href: '/products',
                 icon: Barcode,
+            },
+            {
+                title: 'المصنعيات',
+                href: '/labours',
+                icon: BicepsFlexed,
             },
             {
                 title: 'فواتير',

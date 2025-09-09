@@ -5,13 +5,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
+import Show from '@/pages/Labours/Show.vue';
 import { BreadcrumbItem } from '@/types';
 import { Labour } from '@/types/app';
 import { Head, Link, router } from '@inertiajs/vue3';
 import { useBreakpoints } from '@vueuse/core';
-import { ChevronDown, Eye, Filter, Pen, Plus, Trash2 } from 'lucide-vue-next';
-import Filters from './Filters.vue';
-import Show from './Show.vue';
+import { ChevronDown, Eye, Pen, Plus, Trash2 } from 'lucide-vue-next';
 
 defineProps<{
     labours: Labour[];
@@ -35,7 +34,8 @@ const deleteLabour = (labour: Labour) => {
 <template>
     <Head title="جدول الخدمات" />
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex flex-col flex-1 h-full gap-4 p-4 rounded-xl">
+        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
+            <!--
             <Card>
                 <CardHeader>
                     <CardTitle class="flex items-center text-base">
@@ -47,8 +47,9 @@ const deleteLabour = (labour: Labour) => {
                     <Filters :filters="{ search: null, is_active: null }" />
                 </CardContent>
             </Card>
+            -->
 
-            <div class="flex justify-end w-full">
+            <div class="flex w-full justify-end">
                 <Link :href="route('labours.create')">
                     <Button type="button">
                         <Plus class="ml-1" />
@@ -103,7 +104,7 @@ const deleteLabour = (labour: Labour) => {
                 <Card v-for="labour in labours" :key="labour.id">
                     <Collapsible>
                         <CollapsibleTrigger as-child>
-                            <CardHeader class="flex flex-row items-center justify-between p-4 cursor-pointer">
+                            <CardHeader class="flex cursor-pointer flex-row items-center justify-between p-4">
                                 <div>
                                     <CardTitle class="text-base">{{ labour.name_ar }}</CardTitle>
                                 </div>
@@ -111,7 +112,7 @@ const deleteLabour = (labour: Labour) => {
                             </CardHeader>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            <CardContent class="pt-0 space-y-3">
+                            <CardContent class="space-y-3 pt-0">
                                 <div class="grid grid-cols-2">
                                     <p class="text-sm font-medium text-muted-foreground">السعر</p>
                                     <p class="text-sm">{{ labour.base_fee }}ج.م</p>
@@ -122,7 +123,7 @@ const deleteLabour = (labour: Labour) => {
                                         {{ labour.is_active ? 'مفعل' : 'معطل' }}
                                     </p>
                                 </div>
-                                <div class="flex justify-end pt-2 space-x-2">
+                                <div class="flex justify-end space-x-2 pt-2">
                                     <CustomDialog title="عرض الخدمة" description="">
                                         <template #trigger>
                                             <Button variant="default" size="sm"><Eye /></Button>
